@@ -3,36 +3,58 @@
 <title>카카오내비 동선</title>
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js" crossorigin="anonymous"></script>
 <style>
-body{margin:0;font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:#f4f4f2;color:#222}
-header{position:sticky;top:0;background:#1e2a3a;color:#fff;padding:14px 16px;z-index:2}
-header h1{margin:0;font-size:18px}header p{margin:4px 0 0;font-size:13px;opacity:.8}
-ul{list-style:none;margin:0;padding:10px}
-li{background:#fff;border-radius:12px;padding:12px;margin-bottom:10px;display:flex;gap:10px;align-items:center;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+body{margin:0;font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:#eef3f5;color:#2b3a4a}
+header{position:sticky;top:0;background:linear-gradient(120deg,#1fa8aa 0%,#1d7e98 50%,#3a4d6c 100%);color:#fff;padding:14px 16px;z-index:2;box-shadow:0 3px 10px rgba(30,60,90,.2)}
+header h1{margin:0;font-size:18px;font-weight:800}.cnt{display:inline-block;margin-left:8px;font-size:13px;font-weight:700;background:rgba(255,255,255,.22);padding:3px 10px;border-radius:20px;vertical-align:2px}header p{margin:5px 0 0;font-size:13px;opacity:.85}
+ul{list-style:none;margin:0;padding:12px 10px}
+li{background:#fff;border-radius:18px;padding:12px 12px 12px 10px;margin-bottom:10px;display:flex;gap:10px;align-items:center;box-shadow:0 4px 12px rgba(30,60,90,.10);border-left:5px solid var(--c,#1fa8aa)}
 li.done{opacity:.45}
-.no{min-width:44px;height:44px;border-radius:10px;background:#ff7a00;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:14px;text-align:center}
-.info{flex:1;min-width:0}.nm{font-weight:700;font-size:15px}.ad{font-size:12px;color:#666;margin-top:2px}.nt{font-size:12px;color:#c0392b;margin-top:2px}
+li.ex{background:#f1f3f8}
+li.pk{background:#ecf8f8}
+.sec{border-left:0;margin:20px 4px 10px;padding:9px 16px;background:linear-gradient(90deg,#2b5778,#3a4d6c);color:#fff;border-radius:30px;font-weight:800;font-size:14px;text-align:center;box-shadow:0 3px 8px rgba(30,60,90,.2)}
+.no{flex:0 0 46px;width:46px;height:46px;box-sizing:border-box;border-radius:50%;background:var(--c,#1fa8aa);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:13px;text-align:center;border:3px solid #fff;box-shadow:0 0 0 2px var(--c,#1fa8aa),0 3px 6px rgba(0,0,0,.18);padding:0;font-size:12.5px;letter-spacing:-.3px}
+.info{flex:1;min-width:0}.nm{font-weight:800;font-size:15px;color:#24405a}.ad{font-size:12px;color:#6b7885;margin-top:2px}.nt{font-size:12px;color:#c05a2b;margin-top:2px}
 .btns{display:flex;flex-direction:column;gap:6px}
-button{border:0;border-radius:8px;padding:10px 12px;font-size:14px;font-weight:700}
-.go{background:#fee500;color:#191919}.ck{background:#e9e9e9;color:#333;font-size:12px;padding:6px}
+button{border:0;border-radius:30px;padding:10px 16px;font-size:14px;font-weight:800;font-family:inherit}
+.go{background:var(--c,#1fa8aa);color:#fff;box-shadow:0 3px 8px rgba(30,60,90,.25)}
+.ck{background:#fff;color:var(--c,#1fa8aa);border:2px solid var(--c,#1fa8aa);font-size:12px;padding:5px 10px}
+li.done .ck{background:var(--c,#1fa8aa);color:#fff}
+#cur{display:inline-block;margin-left:6px;font-size:13px;font-weight:800;background:#fff;color:#1d7e98;padding:3px 10px;border-radius:20px;vertical-align:2px}
+#done{display:none;margin:12px 10px 0;padding:14px 16px;border-radius:18px;background:linear-gradient(120deg,#1fa8aa,#2b4a6f);color:#fff;font-weight:800;font-size:16px;text-align:center;box-shadow:0 4px 12px rgba(30,60,90,.2)}
+#pop{display:none;position:fixed;inset:0;background:rgba(20,35,50,.55);z-index:10;align-items:center;justify-content:center}
+#pop .box{background:#fff;border-radius:22px;padding:26px 22px 20px;width:82%;max-width:340px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+#pop .em{font-size:44px}#pop .t{margin-top:8px;font-size:19px;font-weight:800;color:#24405a}#pop .s{margin-top:6px;font-size:13px;color:#6b7885}
+#pop button{margin-top:16px;background:#2b4a6f;color:#fff;padding:10px 26px}
 #err{display:none;background:#fff3cd;padding:10px 16px;font-size:13px}
 </style></head><body>
 <header><h1 id="ttl">카카오내비 동선</h1><p>버튼 누르면 카카오내비가 그 곳으로 바로 안내를 시작합니다</p></header>
-<div id="err"></div>
+<div id="err"></div><div id="done">오늘 하루도 고생하셨습니다 🙌</div><div id="pop"><div class="box"><div class="em">🎉</div><div class="t">오늘 하루도 고생하셨습니다!</div><div class="s">도착 전까지 모든 곳을 완료했어요.<br>조심히 들어가세요.</div><button id="popok">확인</button></div></div>
 <ul id="list"></ul>
 <script>
 var KEY="d85bb6d2302f055fbd25f2129e691772";
 var STOPS=[],TITLE='카카오내비 동선';
-try{var raw=decodeURIComponent(location.hash.slice(1));var b=atob(raw.replace(/-/g,'+').replace(/_/g,'/'));var j=JSON.parse(decodeURIComponent(escape(b)));TITLE=j.t;STOPS=j.s.map(function(a){return {no:a[0],name:a[1],bag:a[2],addr:a[3],note:a[4],y:a[5],x:a[6]}});}catch(e){}
+try{var raw=decodeURIComponent(location.hash.slice(1));var b=atob(raw.replace(/-/g,'+').replace(/_/g,'/'));var j=JSON.parse(decodeURIComponent(escape(b)));TITLE=j.t;STOPS=j.s.map(function(a){return {no:a[0],name:a[1],bag:a[2],addr:a[3],note:a[4],y:a[5],x:a[6],g:a[7]||''}});}catch(e){}
 document.getElementById('ttl').textContent=TITLE;document.title=TITLE;
+function tally(onlyLeft){var bag=0,env=0,hoe=0,su=0;STOPS.forEach(function(s,i){if(s.y==null||s.g==='x'||!s.bag)return;if(onlyLeft&&D[i])return;String(s.bag).split(' / ').forEach(function(p){p=p.trim();var m=p.match(/^가방\s*(\d+)$/);if(m)bag+=parseInt(m[1]);else if(p==='봉투')env++;else if(p==='회수')hoe++;else if(p==='수거')su++;});});return {bag:bag,env:env,hoe:hoe,su:su};}
+function fmt(a,all){var t=[];if(all.hoe)t.push('회수 '+a.hoe);if(all.su)t.push('수거 '+a.su);t.push('가방 '+a.bag);if(all.env)t.push('봉투 '+a.env);return t.join(' · ');}
 if(!STOPS.length){document.getElementById('err').style.display='block';document.getElementById('err').textContent='동선 정보가 없습니다. Claude가 준 오늘 링크로 열어 주세요.';}
 var err=document.getElementById('err');
 function showErr(m){err.style.display='block';err.textContent=m;}
 try{ if(window.Kakao){ if(!Kakao.isInitialized()) Kakao.init(KEY);} else showErr('카카오 SDK를 불러오지 못했습니다. 인터넷 연결을 확인해 주세요.'); }catch(e){showErr('카카오 초기화 오류: '+e.message);}
 var doneKey='naviDone_'+TITLE;var D={};try{D=JSON.parse(localStorage.getItem(doneKey)||'{}')}catch(e){}
 function save(){try{localStorage.setItem(doneKey,JSON.stringify(D))}catch(e){}}
-var ul=document.getElementById('list');
+var ALL=tally(false);var c=document.createElement('span');c.className='cnt';c.textContent='전체 '+fmt(ALL,ALL);document.getElementById('ttl').appendChild(c);
+var cur=document.createElement('span');cur.id='cur';document.getElementById('ttl').appendChild(cur);
+var endIdx=-1;STOPS.forEach(function(s,i){if(s.no==='도착'&&endIdx<0)endIdx=i;});
+function need(){var r=[];STOPS.forEach(function(s,i){if(s.y!=null&&s.g!=='x'&&(endIdx<0||i<endIdx))r.push(i);});return r;}
+function allDone(){var r=need();return r.length>0&&r.every(function(i){return D[i];});}
+function refresh(pop){cur.textContent='남음 '+fmt(tally(true),ALL);var ok=allDone();document.getElementById('done').style.display=ok?'block':'none';if(ok&&pop)document.getElementById('pop').style.display='flex';}
+document.getElementById('popok').onclick=function(){document.getElementById('pop').style.display='none';};
+var ul=document.getElementById('list');var PAL=['#1fa8aa','#1b93a3','#1d7e98','#22698a','#2b5778','#3a4d6c'],EXC='#56627a',PKC='#1fa8aa',NAV='#2b4a6f',k=0;
 STOPS.forEach(function(s,i){
-  var li=document.createElement('li'); if(D[i]) li.className='done';
+  if(s.y==null){var h=document.createElement('li');h.className='sec';h.textContent=s.name;ul.appendChild(h);return;}
+  var base=s.g==='x'?'ex':'';
+  var li=document.createElement('li'); li.className=base+(D[i]?' done':'');var n=STOPS.filter(function(z){return z.y!=null&&z.g!=='x'}).length;var pk=/회수|수거/.test(s.bag||'')&&!/가방|봉투/.test(s.bag||'');if(pk)li.className+=' pk';li.style.setProperty('--c',s.g==='x'?EXC:(pk?PKC:NAV));if(s.g!=='x')k++;
   li.innerHTML='<div class="no">'+s.no+'</div><div class="info"><div class="nm"></div><div class="ad"></div>'+(s.note?'<div class="nt"></div>':'')+'</div><div class="btns"><button class="go">내비</button><button class="ck">완료</button></div>';
   li.querySelector('.nm').textContent=s.name+(s.bag?'  ['+s.bag+']':'');
   li.querySelector('.ad').textContent=s.addr;
@@ -40,8 +62,9 @@ STOPS.forEach(function(s,i){
   li.querySelector('.go').onclick=function(){
     try{ Kakao.Navi.start({name:s.name,x:s.x,y:s.y,coordType:'wgs84'}); }catch(e){showErr('내비 실행 오류: '+e.message);}
   };
-  li.querySelector('.ck').onclick=function(){D[i]=!D[i];li.className=D[i]?'done':'';save();};
+  li.querySelector('.ck').onclick=function(){var before=allDone();D[i]=!D[i];li.classList.toggle('done',!!D[i]);save();refresh(!before);};
   ul.appendChild(li);
 });
+refresh(false);
 window.addEventListener('hashchange',function(){location.reload();});
 </script></body></html>
