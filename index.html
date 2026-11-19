@@ -37,7 +37,7 @@ li.row:last-child{border-bottom:0}
 li.pk .no{background:#e8f6f5;color:#1f8f86}
 li.ex .no{background:#f3f3f6;color:#9a9db0}
 .info{flex:1;min-width:0}
-.nm{font-weight:700;font-size:14.5px;line-height:1.35}
+.nm{font-weight:800;font-size:15px;line-height:1.35}.nm .bg{color:var(--pri);margin-left:4px;white-space:nowrap}li.pk .nm .bg{color:#1f8f86}li.ex .nm .bg{color:#9a9db0}
 .ad{font-size:12px;color:var(--mut);margin-top:2px}
 .nt{font-size:12px;color:#c4572e;margin-top:3px}
 .tags{margin-top:5px;display:flex;flex-wrap:wrap;gap:4px}
@@ -104,8 +104,8 @@ STOPS.forEach(function(s,i){
   var li=document.createElement('li');li.className='row'+(s.g==='x'?' ex':'')+(pk?' pk':'')+(D[i]?' done':'');
   var tags='';String(s.bag||'').split(' / ').forEach(function(p){p=p.trim();if(!p)return;var c=p==='회수'?'hoe':p==='수거'?'su':p==='봉투'?'env':'';tags+='<span class="tag '+c+'">'+p+'</span>';});
   var counts=s.bag&&s.g!=='x';
-  li.innerHTML='<div class="no">'+s.no+'</div><div class="info"><div class="nm"></div><div class="ad"></div>'+(s.note?'<div class="nt"></div>':'')+(tags||counts?'<div class="tags">'+tags+(counts?'<span class="st">'+(D[i]?'완료':'대기')+'</span>':'')+'</div>':'')+'</div><div class="btns"><button class="go">내비</button>'+(counts?'<button class="ck">완료</button>':'')+'</div>';
-  li.querySelector('.nm').textContent=s.name;li.querySelector('.ad').textContent=s.addr;if(s.note)li.querySelector('.nt').textContent=s.note;
+  li.innerHTML='<div class="no">'+s.no+'</div><div class="info"><div class="nm"></div><div class="ad"></div>'+(s.note?'<div class="nt"></div>':'')+(counts?'<div class="tags"><span class="st">'+(D[i]?'완료':'대기')+'</span></div>':'')+'</div><div class="btns"><button class="go">내비</button>'+(counts?'<button class="ck">완료</button>':'')+'</div>';
+  var nm=li.querySelector('.nm');nm.textContent=s.name;if(s.bag){var bg=document.createElement('span');bg.className='bg';bg.textContent='['+s.bag+']';nm.appendChild(bg);}li.querySelector('.ad').textContent=s.addr;if(s.note)li.querySelector('.nt').textContent=s.note;
   li.querySelector('.go').onclick=function(){try{Kakao.Navi.start({name:s.name,x:s.x,y:s.y,coordType:'wgs84'});}catch(e){showErr('내비 실행 오류: '+e.message);}};
   var ck=li.querySelector('.ck');if(ck)ck.onclick=function(){var before=allDone();D[i]=!D[i];li.classList.toggle('done',!!D[i]);var st=li.querySelector('.st');if(st)st.textContent=D[i]?'완료':'대기';save();refresh(!before);};
   ul.appendChild(li);
