@@ -3,33 +3,76 @@
 <title>카카오내비 동선</title>
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js" crossorigin="anonymous"></script>
 <style>
-body{margin:0;font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:#eef3f5;color:#2b3a4a}
-header{position:sticky;top:0;background:linear-gradient(120deg,#1fa8aa 0%,#1d7e98 50%,#3a4d6c 100%);color:#fff;padding:14px 16px;z-index:2;box-shadow:0 3px 10px rgba(30,60,90,.2)}
-header h1{margin:0;font-size:18px;font-weight:800}.cnt{display:inline-block;margin-left:8px;font-size:13px;font-weight:700;background:rgba(255,255,255,.22);padding:3px 10px;border-radius:20px;vertical-align:2px}header p{margin:5px 0 0;font-size:13px;opacity:.85}
-ul{list-style:none;margin:0;padding:12px 10px}
-li{background:#fff;border-radius:18px;padding:12px 12px 12px 10px;margin-bottom:10px;display:flex;gap:10px;align-items:center;box-shadow:0 4px 12px rgba(30,60,90,.10);border-left:5px solid var(--c,#1fa8aa)}
-li.done{opacity:.45}
-li.ex{background:#f1f3f8}
-li.pk{background:#ecf8f8}
-.sec{border-left:0;margin:20px 4px 10px;padding:9px 16px;background:linear-gradient(90deg,#2b5778,#3a4d6c);color:#fff;border-radius:30px;font-weight:800;font-size:14px;text-align:center;box-shadow:0 3px 8px rgba(30,60,90,.2)}
-.no{flex:0 0 46px;width:46px;height:46px;box-sizing:border-box;border-radius:50%;background:var(--c,#1fa8aa);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:13px;text-align:center;border:3px solid #fff;box-shadow:0 0 0 2px var(--c,#1fa8aa),0 3px 6px rgba(0,0,0,.18);padding:0;font-size:12.5px;letter-spacing:-.3px}
-.info{flex:1;min-width:0}.nm{font-weight:800;font-size:15px;color:#24405a}.ad{font-size:12px;color:#6b7885;margin-top:2px}.nt{font-size:12px;color:#c05a2b;margin-top:2px}
-.btns{display:flex;flex-direction:column;gap:6px}
-button{border:0;border-radius:30px;padding:10px 16px;font-size:14px;font-weight:800;font-family:inherit}
-.go{background:var(--c,#1fa8aa);color:#fff;box-shadow:0 3px 8px rgba(30,60,90,.25)}
-.ck{background:#fff;color:var(--c,#1fa8aa);border:2px solid var(--c,#1fa8aa);font-size:12px;padding:5px 10px}
-li.done .ck{background:var(--c,#1fa8aa);color:#fff}
-#cur{display:inline-block;margin-left:6px;font-size:13px;font-weight:800;background:#fff;color:#1d7e98;padding:3px 10px;border-radius:20px;vertical-align:2px}
-#done{display:none;margin:12px 10px 0;padding:14px 16px;border-radius:18px;background:linear-gradient(120deg,#1fa8aa,#2b4a6f);color:#fff;font-weight:800;font-size:16px;text-align:center;box-shadow:0 4px 12px rgba(30,60,90,.2)}
-#pop{display:none;position:fixed;inset:0;background:rgba(20,35,50,.55);z-index:10;align-items:center;justify-content:center}
-#pop .box{background:#fff;border-radius:22px;padding:26px 22px 20px;width:82%;max-width:340px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.25)}
-#pop .em{font-size:44px}#pop .t{margin-top:8px;font-size:19px;font-weight:800;color:#24405a}#pop .s{margin-top:6px;font-size:13px;color:#6b7885}
-#pop button{margin-top:16px;background:#2b4a6f;color:#fff;padding:10px 26px}
-#err{display:none;background:#fff3cd;padding:10px 16px;font-size:13px}
+:root{--bg:#f4f5fa;--navy:#1c2033;--ink:#1f2433;--mut:#8a90a2;--line:#eceef4;--pri:#5b5fd6;--teal:#3fb8ae;--pink:#e2508c;--org:#e99a4a}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--ink)}
+header{position:sticky;top:0;z-index:3;background:var(--navy);color:#fff;padding:14px 16px 16px;box-shadow:0 4px 14px rgba(20,24,40,.25)}
+.brand{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:1.5px;color:#c9cbe0}
+.brand svg{width:18px;height:18px}
+header h1{margin:8px 0 2px;font-size:20px;font-weight:800;letter-spacing:-.3px}
+header p{margin:0;font-size:12px;color:#9a9db5}
+.wrap{padding:14px 12px 24px}
+.kpi{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(30,35,60,.05)}
+.k{padding:12px 12px 12px 14px;position:relative;display:flex;justify-content:space-between;align-items:flex-start}
+.k:before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:3px;background:var(--a)}
+.k .lb{font-size:12px;color:var(--mut);font-weight:600}
+.k .v{font-size:24px;font-weight:800;margin-top:4px;letter-spacing:-.5px}
+.k .v small{font-size:13px;color:var(--mut);font-weight:700}
+.k .s{font-size:11px;color:var(--mut);margin-top:4px}
+.k .s b{color:var(--a)}
+.ic{width:32px;height:32px;border-radius:9px;background:var(--a2);display:flex;align-items:center;justify-content:center;color:var(--a);font-size:15px;font-weight:800}
+.prog{margin-top:10px;padding:14px;display:flex;align-items:center;gap:14px}
+.prog svg{flex:0 0 76px}
+.prog .t{font-size:13px;color:var(--mut);font-weight:600}
+.prog .big{font-size:22px;font-weight:800;margin-top:2px}
+.leg{display:flex;gap:12px;margin-top:6px;font-size:12px;color:var(--mut)}
+.leg i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;vertical-align:1px}
+.ttl2{display:flex;justify-content:space-between;align-items:center;margin:18px 4px 8px;font-size:14px;font-weight:800;color:#3a3f52}
+.ttl2 span{font-size:12px;color:var(--mut);font-weight:600}
+ul{list-style:none;margin:0;padding:0}
+li.row{display:flex;gap:10px;align-items:center;padding:12px;border-bottom:1px solid var(--line)}
+li.row:last-child{border-bottom:0}
+.no{flex:0 0 34px;height:34px;border-radius:10px;background:#f0f1f8;color:#4a4f66;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;letter-spacing:-.3px}
+li.pk .no{background:#e8f6f5;color:#1f8f86}
+li.ex .no{background:#f3f3f6;color:#9a9db0}
+.info{flex:1;min-width:0}
+.nm{font-weight:700;font-size:14.5px;line-height:1.35}
+.ad{font-size:12px;color:var(--mut);margin-top:2px}
+.nt{font-size:12px;color:#c4572e;margin-top:3px}
+.tags{margin-top:5px;display:flex;flex-wrap:wrap;gap:4px}
+.tag{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;background:#eef0fb;color:var(--pri)}
+.tag.hoe{background:#e6f6f4;color:#1f8f86}.tag.su{background:#fde9f1;color:var(--pink)}.tag.env{background:#fdf1e4;color:#c0782f}
+.st{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;background:#fdf1e4;color:#c0782f;white-space:nowrap}
+li.done .st{background:#e6f6ef;color:#2e9b6a}
+li.done .nm,li.done .ad{opacity:.45}
+.btns{display:flex;flex-direction:column;gap:6px;align-items:stretch}
+button{font-family:inherit;border:0;border-radius:10px;font-weight:800}
+.go{background:var(--pri);color:#fff;padding:9px 14px;font-size:13px;box-shadow:0 3px 8px rgba(91,95,214,.3)}
+.ck{background:#fff;color:#4a4f66;border:1px solid #dfe1ea;padding:5px 10px;font-size:12px}
+li.done .ck{background:#2e9b6a;color:#fff;border-color:#2e9b6a}
+li.ex .go{background:#7a7f95;box-shadow:none}
+.sec{margin:18px 4px 8px;font-size:11px;font-weight:800;letter-spacing:1px;color:var(--mut)}
+#done{display:none;margin-top:10px;padding:14px;border-radius:14px;background:var(--navy);color:#fff;font-weight:800;text-align:center}
+#pop{display:none;position:fixed;inset:0;background:rgba(20,24,40,.55);z-index:10;align-items:center;justify-content:center}
+#pop .box{background:#fff;border-radius:18px;padding:26px 22px 20px;width:82%;max-width:340px;text-align:center}
+#pop .em{font-size:44px}#pop .t{margin-top:8px;font-size:19px;font-weight:800}#pop .s{margin-top:6px;font-size:13px;color:var(--mut)}
+#pop button{margin-top:16px;background:var(--pri);color:#fff;padding:10px 26px}
+#mapc{margin-top:18px;padding:12px}#mapc img{width:100%;border-radius:10px;display:block}#mapc .h{font-size:14px;font-weight:800;color:#3a3f52;margin:2px 2px 10px;display:flex;justify-content:space-between}#mapc .h span{font-size:12px;color:var(--mut);font-weight:600}
+#err{display:none;margin:10px 12px 0;border-radius:10px;background:#fff3cd;padding:10px 14px;font-size:13px}
 </style></head><body>
-<header><h1 id="ttl">카카오내비 동선</h1><p>버튼 누르면 카카오내비가 그 곳으로 바로 안내를 시작합니다</p></header>
-<div id="err"></div><div id="done">오늘 하루도 고생하셨습니다 🙌</div><div id="pop"><div class="box"><div class="em">🎉</div><div class="t">오늘 하루도 고생하셨습니다!</div><div class="s">도착 전까지 모든 곳을 완료했어요.<br>조심히 들어가세요.</div><button id="popok">확인</button></div></div>
-<ul id="list"></ul>
+<header><div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-8-8 18-2-8z"/></svg>DELIVERY ROUTE</div><h1 id="ttl">카카오내비 동선</h1><p>내비 버튼을 누르면 카카오내비가 바로 안내를 시작해요</p></header>
+<div id="err"></div>
+<div class="wrap">
+ <div class="kpi" id="kpi"></div>
+ <div class="card prog"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="14" fill="none" stroke="#eceef4" stroke-width="5"/><circle id="arc" cx="18" cy="18" r="14" fill="none" stroke="#5b5fd6" stroke-width="5" stroke-linecap="round" stroke-dasharray="0 88" transform="rotate(-90 18 18)"/><text id="pct" x="18" y="20.5" text-anchor="middle" font-size="8" font-weight="800" fill="#1f2433">0%</text></svg>
+  <div><div class="t">진행률</div><div class="big" id="progtxt">0 / 0곳</div><div class="leg"><span><i style="background:#5b5fd6"></i>완료</span><span><i style="background:#eceef4"></i>남음</span></div></div></div>
+ <div id="done">오늘 하루도 고생하셨습니다 🙌</div>
+ <div class="ttl2">오늘 동선 <span id="cnt2"></span></div>
+ <div id="lists"></div>
+ <div class="card" id="mapc" style="display:none"><div class="h">오늘 동선 지도 <span>눌러서 크게 보기</span></div><a id="mapa" target="_blank"><img id="mapi" alt="오늘 동선 지도"></a></div>
+</div>
+<div id="pop"><div class="box"><div class="em">🎉</div><div class="t">오늘 하루도 고생하셨습니다!</div><div class="s">도착 전까지 모든 곳을 완료했어요.<br>조심히 들어가세요.</div><button id="popok">확인</button></div></div>
 <script>
 var KEY="d85bb6d2302f055fbd25f2129e691772";
 var STOPS=[],TITLE='카카오내비 동선';
@@ -38,36 +81,36 @@ if(ZH.charAt(0)==='z'&&window.DecompressionStream){(function(){try{var b=atob(ZH
 new Response(new Blob([u]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer().then(function(ab){var by=new Uint8Array(ab),bin='';for(var q=0;q<by.length;q++)bin+=String.fromCharCode(by[q]);location.replace('#'+btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''));location.reload();});}catch(e){}})();}
 try{var raw=decodeURIComponent(location.hash.slice(1));var b=atob(raw.replace(/-/g,'+').replace(/_/g,'/'));var j=JSON.parse(decodeURIComponent(escape(b)));TITLE=j.t;STOPS=j.s.map(function(a){return {no:a[0],name:a[1],bag:a[2],addr:a[3],note:a[4],y:a[5],x:a[6],g:a[7]||''}});}catch(e){}
 document.getElementById('ttl').textContent=TITLE;document.title=TITLE;
-function tally(onlyLeft){var bag=0,env=0,hoe=0,su=0;STOPS.forEach(function(s,i){if(s.y==null||s.g==='x'||!s.bag)return;if(onlyLeft&&D[i])return;String(s.bag).split(' / ').forEach(function(p){p=p.trim();var m=p.match(/^가방\s*(\d+)$/);if(m)bag+=parseInt(m[1]);else if(p==='봉투')env++;else if(p==='회수')hoe++;else if(p==='수거')su++;});});return {bag:bag,env:env,hoe:hoe,su:su};}
-function fmt(a,all){var t=[];if(all.hoe)t.push('회수 '+a.hoe);if(all.su)t.push('수거 '+a.su);t.push('가방 '+a.bag);if(all.env)t.push('봉투 '+a.env);return t.join(' · ');}
-if(!STOPS.length&&ZH.charAt(0)!=='z'){document.getElementById('err').style.display='block';document.getElementById('err').textContent='동선 정보가 없습니다. Claude가 준 오늘 링크로 열어 주세요.';}
-var err=document.getElementById('err');
-function showErr(m){err.style.display='block';err.textContent=m;}
+var err=document.getElementById('err');function showErr(m){err.style.display='block';err.textContent=m;}
+if(!STOPS.length&&ZH.charAt(0)!=='z')showErr('동선 정보가 없습니다. 1조·2조 주소로 열어 주세요.');
 try{ if(window.Kakao){ if(!Kakao.isInitialized()) Kakao.init(KEY);} else showErr('카카오 SDK를 불러오지 못했습니다. 인터넷 연결을 확인해 주세요.'); }catch(e){showErr('카카오 초기화 오류: '+e.message);}
 var doneKey='naviDone_'+TITLE;var D={};try{D=JSON.parse(localStorage.getItem(doneKey)||'{}')}catch(e){}
 function save(){try{localStorage.setItem(doneKey,JSON.stringify(D))}catch(e){}}
-var ALL=tally(false);var c=document.createElement('span');c.className='cnt';c.textContent='전체 '+fmt(ALL,ALL);document.getElementById('ttl').appendChild(c);
-var cur=document.createElement('span');cur.id='cur';document.getElementById('ttl').appendChild(cur);
+function tally(onlyLeft){var r={bag:0,env:0,hoe:0,su:0};STOPS.forEach(function(s,i){if(s.y==null||s.g==='x'||!s.bag)return;if(onlyLeft&&D[i])return;String(s.bag).split(' / ').forEach(function(p){p=p.trim();var m=p.match(/^가방\s*(\d+)$/);if(m)r.bag+=parseInt(m[1]);else if(p==='봉투')r.env++;else if(p==='회수')r.hoe++;else if(p==='수거')r.su++;});});return r;}
+var ALL=tally(false);
 var endIdx=-1;STOPS.forEach(function(s,i){if(s.no==='도착'&&endIdx<0)endIdx=i;});
-function need(){var r=[];STOPS.forEach(function(s,i){if(s.y!=null&&s.g!=='x'&&(endIdx<0||i<endIdx))r.push(i);});return r;}
+function need(){var r=[];STOPS.forEach(function(s,i){if(s.y!=null&&s.g!=='x'&&s.bag&&(endIdx<0||i<endIdx))r.push(i);});return r;}
 function allDone(){var r=need();return r.length>0&&r.every(function(i){return D[i];});}
-function refresh(pop){cur.textContent='남음 '+fmt(tally(true),ALL);var ok=allDone();document.getElementById('done').style.display=ok?'block':'none';if(ok&&pop)document.getElementById('pop').style.display='flex';}
+var KP=[['가방','bag','#5b5fd6','#eef0fb','▣'],['봉투','env','#e99a4a','#fdf1e4','✉'],['회수','hoe','#3fb8ae','#e6f6f4','↺'],['수거','su','#e2508c','#fde9f1','⬆']];
+function kpi(){var L=tally(true),h='';KP.forEach(function(k){if(!ALL[k[1]]&&k[1]!=='bag')return;var left=L[k[1]],all=ALL[k[1]];h+='<div class="card k" style="--a:'+k[2]+';--a2:'+k[3]+'"><div><div class="lb">'+k[0]+' 남음</div><div class="v">'+left+'<small> / '+all+'</small></div><div class="s"><b>'+(all-left)+'</b> 완료</div></div><div class="ic">'+k[4]+'</div></div>';});document.getElementById('kpi').innerHTML=h;}
+function refresh(pop){kpi();var r=need(),d=r.filter(function(i){return D[i]}).length,p=r.length?Math.round(d/r.length*100):0;document.getElementById('arc').setAttribute('stroke-dasharray',(p*0.88)+' 88');document.getElementById('pct').textContent=p+'%';document.getElementById('progtxt').textContent=d+' / '+r.length+'곳';document.getElementById('cnt2').textContent='남은 곳 '+(r.length-d);var ok=allDone();document.getElementById('done').style.display=ok?'block':'none';if(ok&&pop)document.getElementById('pop').style.display='flex';}
 document.getElementById('popok').onclick=function(){document.getElementById('pop').style.display='none';};
-var ul=document.getElementById('list');var PAL=['#1fa8aa','#1b93a3','#1d7e98','#22698a','#2b5778','#3a4d6c'],EXC='#56627a',PKC='#1fa8aa',NAV='#2b4a6f',k=0;
+var box=document.getElementById('lists'),card=null,ul=null;
+function newCard(){card=document.createElement('div');card.className='card';ul=document.createElement('ul');card.appendChild(ul);box.appendChild(card);}
+newCard();
 STOPS.forEach(function(s,i){
-  if(s.y==null){var h=document.createElement('li');h.className='sec';h.textContent=s.name;ul.appendChild(h);return;}
-  var base=s.g==='x'?'ex':'';
-  var li=document.createElement('li'); li.className=base+(D[i]?' done':'');var n=STOPS.filter(function(z){return z.y!=null&&z.g!=='x'}).length;var pk=/회수|수거/.test(s.bag||'')&&!/가방|봉투/.test(s.bag||'');if(pk)li.className+=' pk';li.style.setProperty('--c',s.g==='x'?EXC:(pk?PKC:NAV));if(s.g!=='x')k++;
-  li.innerHTML='<div class="no">'+s.no+'</div><div class="info"><div class="nm"></div><div class="ad"></div>'+(s.note?'<div class="nt"></div>':'')+'</div><div class="btns"><button class="go">내비</button><button class="ck">완료</button></div>';
-  li.querySelector('.nm').textContent=s.name+(s.bag?'  ['+s.bag+']':'');
-  li.querySelector('.ad').textContent=s.addr;
-  if(s.note) li.querySelector('.nt').textContent=s.note;
-  li.querySelector('.go').onclick=function(){
-    try{ Kakao.Navi.start({name:s.name,x:s.x,y:s.y,coordType:'wgs84'}); }catch(e){showErr('내비 실행 오류: '+e.message);}
-  };
-  li.querySelector('.ck').onclick=function(){var before=allDone();D[i]=!D[i];li.classList.toggle('done',!!D[i]);save();refresh(!before);};
+  if(s.y==null){var h=document.createElement('div');h.className='sec';h.textContent=s.name.replace(/─/g,'').trim();box.appendChild(h);newCard();return;}
+  var pk=/회수|수거/.test(s.bag||'')&&!/가방|봉투/.test(s.bag||'');
+  var li=document.createElement('li');li.className='row'+(s.g==='x'?' ex':'')+(pk?' pk':'')+(D[i]?' done':'');
+  var tags='';String(s.bag||'').split(' / ').forEach(function(p){p=p.trim();if(!p)return;var c=p==='회수'?'hoe':p==='수거'?'su':p==='봉투'?'env':'';tags+='<span class="tag '+c+'">'+p+'</span>';});
+  var counts=s.bag&&s.g!=='x';
+  li.innerHTML='<div class="no">'+s.no+'</div><div class="info"><div class="nm"></div><div class="ad"></div>'+(s.note?'<div class="nt"></div>':'')+(tags||counts?'<div class="tags">'+tags+(counts?'<span class="st">'+(D[i]?'완료':'대기')+'</span>':'')+'</div>':'')+'</div><div class="btns"><button class="go">내비</button>'+(counts?'<button class="ck">완료</button>':'')+'</div>';
+  li.querySelector('.nm').textContent=s.name;li.querySelector('.ad').textContent=s.addr;if(s.note)li.querySelector('.nt').textContent=s.note;
+  li.querySelector('.go').onclick=function(){try{Kakao.Navi.start({name:s.name,x:s.x,y:s.y,coordType:'wgs84'});}catch(e){showErr('내비 실행 오류: '+e.message);}};
+  var ck=li.querySelector('.ck');if(ck)ck.onclick=function(){var before=allDone();D[i]=!D[i];li.classList.toggle('done',!!D[i]);var st=li.querySelector('.st');if(st)st.textContent=D[i]?'완료':'대기';save();refresh(!before);};
   ul.appendChild(li);
 });
+(function(){var t=/^2조/.test(TITLE)?'2jo':(/^1조/.test(TITLE)?'1jo':'');if(!t||!STOPS.length)return;var u='d/'+t+'.jpg?v='+encodeURIComponent(TITLE);var im=document.getElementById('mapi');im.onload=function(){document.getElementById('mapc').style.display='block';};im.src=u;document.getElementById('mapa').href=u;})();
 refresh(false);
 window.addEventListener('hashchange',function(){location.reload();});
 </script></body></html>

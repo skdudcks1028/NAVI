@@ -1,6 +1,0 @@
-<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>1조 동선</title>
-<style>body{font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;color:#2b4a6f}</style></head>
-<body><p id="m">1조 오늘 동선 불러오는 중…</p>
-<script>
-fetch('d/1jo.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(s){s=s.trim();if(!s)throw 0;location.replace('preview.html#'+s);}).catch(function(){document.getElementById('m').textContent='오늘 동선이 아직 올라오지 않았어요.';});
-</script></body></html>
