@@ -58,6 +58,7 @@ li.ex .go{background:#7a7f95;box-shadow:none}
 #pop .box{background:#fff;border-radius:18px;padding:26px 22px 20px;width:82%;max-width:340px;text-align:center}
 #pop .em{font-size:44px}#pop .t{margin-top:8px;font-size:19px;font-weight:800}#pop .s{margin-top:6px;font-size:13px;color:var(--mut)}
 #pop button{margin-top:16px;background:var(--pri);color:#fff;padding:10px 26px}
+#mapc{margin-top:18px;padding:12px}#mapc img{width:100%;border-radius:10px;display:block}#mapc .h{font-size:14px;font-weight:800;color:#3a3f52;margin:2px 2px 10px;display:flex;justify-content:space-between}#mapc .h span{font-size:12px;color:var(--mut);font-weight:600}
 #err{display:none;margin:10px 12px 0;border-radius:10px;background:#fff3cd;padding:10px 14px;font-size:13px}
 </style></head><body>
 <header><div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-8-8 18-2-8z"/></svg>DELIVERY ROUTE</div><h1 id="ttl">카카오내비 동선</h1><p>내비 버튼을 누르면 카카오내비가 바로 안내를 시작해요</p></header>
@@ -69,6 +70,7 @@ li.ex .go{background:#7a7f95;box-shadow:none}
  <div id="done">오늘 하루도 고생하셨습니다 🙌</div>
  <div class="ttl2">오늘 동선 <span id="cnt2"></span></div>
  <div id="lists"></div>
+ <div class="card" id="mapc" style="display:none"><div class="h">오늘 동선 지도 <span>눌러서 크게 보기</span></div><a id="mapa" target="_blank"><img id="mapi" alt="오늘 동선 지도"></a></div>
 </div>
 <div id="pop"><div class="box"><div class="em">🎉</div><div class="t">오늘 하루도 고생하셨습니다!</div><div class="s">도착 전까지 모든 곳을 완료했어요.<br>조심히 들어가세요.</div><button id="popok">확인</button></div></div>
 <script>
@@ -108,6 +110,7 @@ STOPS.forEach(function(s,i){
   var ck=li.querySelector('.ck');if(ck)ck.onclick=function(){var before=allDone();D[i]=!D[i];li.classList.toggle('done',!!D[i]);var st=li.querySelector('.st');if(st)st.textContent=D[i]?'완료':'대기';save();refresh(!before);};
   ul.appendChild(li);
 });
+(function(){var t=/^2조/.test(TITLE)?'2jo':(/^1조/.test(TITLE)?'1jo':'');if(!t||!STOPS.length)return;var u='d/'+t+'.jpg?v='+encodeURIComponent(TITLE);var im=document.getElementById('mapi');im.onload=function(){document.getElementById('mapc').style.display='block';};im.src=u;document.getElementById('mapa').href=u;})();
 refresh(false);
 window.addEventListener('hashchange',function(){location.reload();});
 </script></body></html>
